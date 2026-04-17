@@ -1,0 +1,37 @@
+<script src="data.js"></script>
+
+<script>
+const id = new URLSearchParams(window.location.search).get("id");
+const org = orgData.find(o => o.id === id);
+
+if (!org) {
+  document.getElementById("content").innerHTML = "<h2>Not found</h2>";
+} else {
+
+  const percent = Math.round((org.raised / org.goal) * 100);
+
+  document.getElementById("content").innerHTML = `
+    <div class="card">
+
+      <h1>${org.name}</h1>
+      <h3>${org.city}, ${org.country}</h3>
+
+      <p>${org.description}</p>
+
+      <h3>Goal: $${org.goal}</h3>
+      <h3>Raised: $${org.raised}</h3>
+
+      <div class="bar">
+        <div class="fill" style="width:${percent}%"></div>
+      </div>
+
+      <button onclick="window.location.href='${org.stripe}'">
+        Donate Now
+      </button>
+
+      <button onclick="history.back()">Back</button>
+
+    </div>
+  `;
+}
+</script>
