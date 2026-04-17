@@ -1,0 +1,19 @@
+<script src="data.js"></script>
+
+<script>
+document.getElementById("list").innerHTML =
+  orgData.map(org => `
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+
+      <div>
+        <h3>${org.name}</h3>
+        <p>${org.city}, ${org.country}</p>
+      </div>
+
+      <button onclick="window.location.href='${org.stripe}'">
+        Donate Now
+      </button>
+
+    </div>
+  `).join("");
+</script>
