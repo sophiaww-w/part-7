@@ -1,19 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Organizations</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="nav">
+  <b>Fundraising Organization</b>
+  <a href="index.html">Home</a>
+</div>
+
+<h1>All Locations</h1>
+
+<div id="list"></div>
+
 <script src="data.js"></script>
 
 <script>
 document.getElementById("list").innerHTML =
-  orgData.map(org => `
-    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+  orgData.map(o => `
+    <div class="card">
 
-      <div>
-        <h3>${org.name}</h3>
-        <p>${org.city}, ${org.country}</p>
-      </div>
+      <h3>${o.name}</h3>
+      <p>${o.city}, ${o.country}</p>
 
-      <button onclick="window.location.href='${org.stripe}'">
+      <!-- STRIPE -->
+      <button onclick="window.location.href='${o.stripe}'">
         Donate Now
+      </button>
+
+      <!-- OPTIONAL: go to org page -->
+      <button onclick="window.location.href='org.html?id=${o.id}'">
+        Learn More
       </button>
 
     </div>
   `).join("");
 </script>
+
+</body>
+</html>
