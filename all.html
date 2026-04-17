@@ -9,10 +9,13 @@
 
 <div class="nav">
   <b>Fundraising Organization</b>
-  <a href="index.html">Home</a>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+  </div>
 </div>
 
-<h1>All Locations</h1>
+<h1 style="text-align:center;">All Locations</h1>
 
 <div id="list"></div>
 
@@ -26,14 +29,12 @@ document.getElementById("list").innerHTML =
       <h3>${o.name}</h3>
       <p>${o.city}, ${o.country}</p>
 
-      <!-- STRIPE -->
-      <button onclick="window.location.href='${o.stripe}'">
-        Donate Now
-      </button>
-
-      <!-- OPTIONAL: go to org page -->
       <button onclick="window.location.href='org.html?id=${o.id}'">
         Learn More
+      </button>
+
+      <button onclick="window.location.href='${o.stripe}'">
+        Donate Now
       </button>
 
     </div>
