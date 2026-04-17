@@ -2,20 +2,26 @@ const globe = Globe()(document.getElementById('globe'))
   .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
   .backgroundColor('#070a12');
 
-// PINS
+// add animated scale value to each point
+const data = orgData.map(d => ({
+  ...d,
+  pulse: Math.random()
+}));
+
 globe
-  .pointsData(orgData)
+  .pointsData(data)
   .pointLat(d => d.lat)
   .pointLng(d => d.lng)
   .pointColor(() => 'rgba(255,80,80,0.9)')
-  .pointAltitude(0.02);
+  .pointAltitude(0.02)
+  .pointRadius(d => 0.6 + d.pulse * 0.3);
 
-// CLICK → org page
+// CLICK
 globe.onPointClick(d => {
   window.location.href = `org.html?id=${d.id}`;
 });
 
-// HOVER TOOLTIP
+// TOOLTIP
 const tooltip = document.createElement("div");
 tooltip.className = "tooltip";
 document.body.appendChild(tooltip);
@@ -40,13 +46,14 @@ document.addEventListener("mousemove", e => {
   tooltip.style.top = e.clientY + 10 + "px";
 });
 
-// PULSING ANIMATION
-let t = 0;
 
+// REAL PULSE ANIMATION (THIS ONE WORKS)
 function animate() {
-  t += 0.03;
+  data.forEach(d => {
+    d.pulse = (Math.sin(Date.now() * 0.003 + d.lat) + 1) / 2;
+  });
 
-  globe.pointRadius(() => 0.6 + Math.sin(t) * 0.15);
+  globe.pointsData(data);
 
   requestAnimationFrame(animate);
 }
