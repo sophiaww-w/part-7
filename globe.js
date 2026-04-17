@@ -2,7 +2,7 @@ const globe = Globe()(document.getElementById('globe'))
   .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
   .backgroundColor('#070a12');
 
-// POINTS
+// PINS
 globe
   .pointsData(orgData)
   .pointLat(d => d.lat)
@@ -10,52 +10,41 @@ globe
   .pointColor(() => 'rgba(255,80,80,0.9)')
   .pointAltitude(0.02);
 
-// CLICK → org page
-globe.onPointClick(point => {
-  window.location.href = `org.html?id=${point.id}`;
+// CLICK → SPECIFIC PAGE
+globe.onPointClick(d => {
+  window.location.href = `org.html?id=${d.id}`;
 });
 
-// HOVER TOOLTIP (SINGLE CLEAN SYSTEM)
+// TOOLTIP
 const tooltip = document.createElement('div');
-tooltip.style.position = 'absolute';
-tooltip.style.background = 'white';
-tooltip.style.color = 'black';
-tooltip.style.padding = '8px 10px';
-tooltip.style.borderRadius = '8px';
-tooltip.style.fontSize = '12px';
-tooltip.style.display = 'none';
-tooltip.style.pointerEvents = 'none';
+tooltip.className = 'tooltip';
 document.body.appendChild(tooltip);
 
-globe.onPointHover(point => {
-  if (!point) {
+globe.onPointHover(d => {
+  if (!d) {
     tooltip.style.display = 'none';
     return;
   }
 
   tooltip.innerHTML = `
-    <b>${point.name}</b><br>
-    ${point.city}, ${point.country}<br>
-    $${point.raised} / $${point.goal}
+    <b>${d.name}</b><br>
+    ${d.city}, ${d.country}<br>
+    $${d.raised} / $${d.goal}
   `;
 
   tooltip.style.display = 'block';
 });
 
 document.addEventListener('mousemove', e => {
-  tooltip.style.left = e.clientX + 12 + 'px';
-  tooltip.style.top = e.clientY + 12 + 'px';
+  tooltip.style.left = e.clientX + 10 + 'px';
+  tooltip.style.top = e.clientY + 10 + 'px';
 });
 
-// PULSING EFFECT (SAFE VERSION)
+// PULSE
 let t = 0;
-
 function animate() {
   t += 0.03;
-
   globe.pointRadius(() => 0.6 + Math.sin(t) * 0.15);
-
   requestAnimationFrame(animate);
 }
-
 animate();
