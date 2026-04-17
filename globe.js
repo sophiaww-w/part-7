@@ -10,19 +10,19 @@ globe
   .pointColor(() => 'rgba(255,80,80,0.9)')
   .pointAltitude(0.02);
 
-// CLICK → SPECIFIC PAGE
+// CLICK → org page
 globe.onPointClick(d => {
   window.location.href = `org.html?id=${d.id}`;
 });
 
-// TOOLTIP
-const tooltip = document.createElement('div');
-tooltip.className = 'tooltip';
+// HOVER TOOLTIP
+const tooltip = document.createElement("div");
+tooltip.className = "tooltip";
 document.body.appendChild(tooltip);
 
 globe.onPointHover(d => {
   if (!d) {
-    tooltip.style.display = 'none';
+    tooltip.style.display = "none";
     return;
   }
 
@@ -32,19 +32,23 @@ globe.onPointHover(d => {
     $${d.raised} / $${d.goal}
   `;
 
-  tooltip.style.display = 'block';
+  tooltip.style.display = "block";
 });
 
-document.addEventListener('mousemove', e => {
-  tooltip.style.left = e.clientX + 10 + 'px';
-  tooltip.style.top = e.clientY + 10 + 'px';
+document.addEventListener("mousemove", e => {
+  tooltip.style.left = e.clientX + 10 + "px";
+  tooltip.style.top = e.clientY + 10 + "px";
 });
 
-// PULSE
+// PULSING ANIMATION
 let t = 0;
+
 function animate() {
   t += 0.03;
+
   globe.pointRadius(() => 0.6 + Math.sin(t) * 0.15);
+
   requestAnimationFrame(animate);
 }
+
 animate();
